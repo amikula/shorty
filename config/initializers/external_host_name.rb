@@ -1,0 +1,1 @@
+EXTERNAL_HOST_NAME = ENV['EXTERNAL_HOST_NAME'] || 'example.com'

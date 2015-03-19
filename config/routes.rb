@@ -54,5 +54,7 @@ Rails.application.routes.draw do
   #     resources :products
   #   end
 
+  root "welcome#index"
   resources :urls, controller: 'url_shortener'
+  get '/:id' => 'url_shortener#show'
 end

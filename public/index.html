@@ -1,0 +1,28 @@
+<html>
+<head>
+<title>Welcome to Alf's URL shortener!</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+</head>
+<body>
+Enter a URL to shorten:
+<form id="url-form">
+  <input type="text" size="128" name="url">
+  <input type="submit" value="Go!">
+</form>
+
+<div id="show-result" style="display: none;">
+  Use the following shortened URL: <span id="short-url"></span>
+</div>
+
+<script type="text/javascript">
+  $('#url-form input[type=submit]').click(function (event) {
+      event.preventDefault();
+      var url = $('#url-form input[type=text]').val();
+      $.post('/urls', {url: url}, function(data) {
+        $("#short-url").html(data.shortened_url);
+        $("#show-result").show();
+      });
+  });
+</script>
+</body>
+</html>

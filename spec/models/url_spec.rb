@@ -15,4 +15,10 @@ RSpec.describe Url, :type => :model do
       Url.create!(url: "www.example.com")
     }.to raise_error(ActiveRecord::RecordInvalid)
   end
+
+  it 'generates the external URL which will be redirected' do
+    url = create(:url)
+
+    expect(url.external_url).to eq("http://example.com/#{url.slug}")
+  end
 end

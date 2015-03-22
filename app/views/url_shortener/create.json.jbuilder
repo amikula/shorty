@@ -1,1 +1,1 @@
-json.shortened_url "http://#{EXTERNAL_HOST_NAME}/#{@url.slug}"
+json.shortened_url @url.external_url

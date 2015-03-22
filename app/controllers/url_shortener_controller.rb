@@ -1,7 +1,15 @@
 class UrlShortenerController < ApplicationController
   def create
-    # Create a new Url if it's not already in the database
-    @url = Url.where(url: params[:url]).first || Url.create!(url: params[:url])
+    @url = Url.where(url: params[:url]).first
+
+    unless @url
+      @url = Url.create(url: params[:url])
+
+      if @url.errors.present?
+        render(text: "{\"error\":\"#{@url.errors.full_messages.join('; ')}\"}", status: 400)
+        return
+      end
+    end
   end
 
   def show

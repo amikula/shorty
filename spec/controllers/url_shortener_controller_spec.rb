@@ -52,6 +52,14 @@ RSpec.describe UrlShortenerController, :type => :controller do
 
       expect(shorty1).to eq(shorty2)
     end
+
+    it 'returns a 400 error when an invalid URL is sent' do
+      post :create, format: 'json', url: 'www.example.com'
+
+      expect(response).to have_http_status(400)
+
+      expect(JSON.parse(response.body)['error']).to eq("Url is invalid")
+    end
   end
 
   context 'GET' do

@@ -10,18 +10,31 @@ Enter a URL to shorten:
   <input type="submit" value="Go!">
 </form>
 
+<div id="error" style="display: none;">
+</div>
+
 <div id="show-result" style="display: none;">
   Use the following shortened URL: <span id="short-url"></span>
 </div>
 
 <script type="text/javascript">
   $('#url-form input[type=submit]').click(function (event) {
-      event.preventDefault();
-      var url = $('#url-form input[type=text]').val();
-      $.post('/urls', {url: url}, function(data) {
-        $("#short-url").html(data.shortened_url);
-        $("#show-result").show();
-      });
+    event.preventDefault();
+
+    // In the event that a previous result is still being shown
+    $("#show-result").hide();
+    $("#error").hide();
+
+    var url = $('#url-form input[type=text]').val();
+    $.post('/urls', {url: url}, function(data) {
+      $("#short-url").html(data.shortened_url);
+      $("#show-result").show();
+    })
+      .fail(function(jqXHR) {
+        var message = $.parseJSON(jqXHR.responseText).error;
+        $("#error").html(message);
+        $("#error").show();
+    });
   });
 </script>
 </body>
